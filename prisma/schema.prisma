@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  role          UserRole  @default(USER)
+  rewards       Int       @default(0)
+  referralCode  String    @unique
+  referredBy    String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  purchases     Purchase[]
+  referrals     User[]    @relation("Referral")
+  referredByUser User?    @relation("Referral", fields: [referredBy], references: [referralCode])
+}
+
+model Product {
+  id            String    @id @default(cuid())
+  title         String
+  description   String
+  price         Float
+  originalPrice Float?
+  image         String?
+  url           String    @unique
+  category      String
+  subcategory   String?
+  affiliateLink String
+  commission    Float
+  trendingScore Int       @default(0)
+  isActive      Boolean   @default(true)
+  source        String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  purchases     Purchase[]
+}
+
+model Purchase {
+  id            String    @id @default(cuid())
+  userId        String
+  productId     String
+  amount        Float
+  commission    Float
+  status        PurchaseStatus @default(PENDING)
+  stripePaymentId String?
+  createdAt     DateTime  @default(now())
+  
+  user          User      @relation(fields: [userId], references: [id])
+  product       Product   @relation(fields: [productId], references: [id])
+}
+
+model Affiliate {
+  id            String    @id @default(cuid())
+  name          String
+  apiEndpoint   String
+  apiKey        String?
+  commissionRate Float
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model ApiConfig {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  endpoint      String
+  apiKey        String?
+  config        Json
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}

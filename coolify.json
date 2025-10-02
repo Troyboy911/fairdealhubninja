@@ -1,0 +1,30 @@
+{
+  "name": "FairDealHub",
+  "description": "AI-powered affiliate marketing platform with trending products and rewards",
+  "domain": "fairdealhub.online",
+  "ports": [
+    {
+      "internal": 3000,
+      "external": 3000
+    }
+  ],
+  "environment": {
+    "NODE_ENV": "production",
+    "DATABASE_URL": "postgresql://username:password@localhost:5432/fairdealhub",
+    "NEXTAUTH_URL": "https://fairdealhub.online",
+    "NEXTAUTH_SECRET": "your-secret-key-here",
+    "STRIPE_SECRET_KEY": "sk_live_your_stripe_secret_key",
+    "STRIPE_PUBLISHABLE_KEY": "pk_live_your_stripe_publishable_key",
+    "STRIPE_WEBHOOK_SECRET": "whsec_your_webhook_secret",
+    "AMAZON_ASSOCIATES_ID": "fairdealhub0d-20"
+  },
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "healthcheck": {
+    "path": "/api/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  }
+}
