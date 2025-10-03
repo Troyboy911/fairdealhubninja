@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     // For demo purposes, we'll extract basic info from URL
     const productId = url.match(/\/dp\/([A-Z0-9]+)/)?.[1] || 'B0BDHWDR12'
 
-    const mockProducts = {
+    const mockProducts: Record<string, any> = {
       'B0BDHWDR12': {
         title: 'Apple AirPods Pro (2nd Generation)',
         description: 'Wireless earbuds with active noise cancellation, spatial audio, and up to 6 hours of listening time',
