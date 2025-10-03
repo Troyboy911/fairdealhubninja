@@ -97,11 +97,11 @@ export default function Dashboard() {
             <input
               type="text"
               readOnly
-              value={session.user.referralCode || 'GENERATE'}
+              value={(session?.user as any)?.referralCode || 'GENERATE'}
               className="flex-1 px-4 py-2 border border-gray-300 rounded-md bg-gray-50"
             />
             <button
-              onClick={() => navigator.clipboard.writeText(session.user.referralCode || '')}
+              onClick={() => navigator.clipboard.writeText((session?.user as any)?.referralCode || '')}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             >
               Copy
