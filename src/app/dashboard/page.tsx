@@ -1,5 +1,4 @@
 'use client'
-
 import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -67,7 +66,7 @@ export default function Dashboard() {
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Welcome back, {session.user.name || 'User'}!
+            Welcome back, {(session?.user?.name) || 'User'}!
           </h1>
           <p className="text-gray-600">
             Here's your dashboard overview and personalized deals.
@@ -77,9 +76,9 @@ export default function Dashboard() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {statCards.map((stat, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-sm p-6">
+            <div className="bg-white rounded-lg shadow-sm p-6" key={index}>
               <div className="flex items-center">
-                <div className={`flex-shrink-0 h-12 w-12 rounded-lg ${stat.bgColor} flex items-center justify-center ${stat.color}`}>
+                <div className={`flex-shrink-0 w-12 h-12 rounded-lg ${stat.bgColor} flex items-center justify-center`}>
                   {stat.icon}
                 </div>
                 <div className="ml-4">
