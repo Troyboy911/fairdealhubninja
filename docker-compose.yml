@@ -1,8 +1,10 @@
-version: '3.8'
-
 services:
   fairdealhub:
-    build: .
+    # Allow CI to use an image; fallback to local build for dev (docker-compose will prefer build for local builds)
+    image: "${IMAGE:-ghcr.io/${GITHUB_REPOSITORY_OWNER:-owner}/fairdealhub:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
